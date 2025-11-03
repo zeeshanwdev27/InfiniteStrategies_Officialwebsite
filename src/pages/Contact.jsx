@@ -13,13 +13,6 @@ function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const inputVariants = {
     focus: {
       scale: 1.02,
@@ -147,15 +140,15 @@ function Contact() {
           <motion.form
             onSubmit={async (e) => {
               e.preventDefault();
-              setIsSubmitting(true); 
-              const formData = new FormData(e.target);
+              setIsSubmitting(true);
+              const payload = new FormData(e.target);
 
               try {
                 const response = await fetch(
                   "https://infinitestrategies.org/sendmail.php",
                   {
                     method: "POST",
-                    body: formData,
+                    body: payload,
                   }
                 );
                 const result = await response.text();
@@ -167,7 +160,13 @@ function Contact() {
                     text: "🎉 Thank you! Your message has been recorded. We'll get back to you soon.",
                     confirmButtonColor: "#FBBF24",
                   });
-                  e.target.reset();
+                  setFormData({
+                    name: "",
+                    phone: "",
+                    email: "",
+                    company: "",
+                    message: "",
+                  });
                 } else if (result.includes("invalid_email")) {
                   Swal.fire({
                     icon: "warning",
@@ -182,6 +181,13 @@ function Contact() {
                     text: "❌ Something went wrong. Please try again later.",
                     confirmButtonColor: "#FBBF24",
                   });
+                  setFormData({
+                    name: "",
+                    phone: "",
+                    email: "",
+                    company: "",
+                    message: "",
+                  });
                 }
               } catch (error) {
                 Swal.fire({
@@ -191,8 +197,15 @@ function Contact() {
                   confirmButtonColor: "#FBBF24",
                 });
                 console.error(error);
+                setFormData({
+                  name: "",
+                  phone: "",
+                  email: "",
+                  company: "",
+                  message: "",
+                });
               } finally {
-                setIsSubmitting(false); 
+                setIsSubmitting(false);
               }
             }}
             className="flex flex-col gap-4 sm:gap-6 w-full max-w-lg mx-auto lg:mx-0 px-2 sm:px-0"
@@ -210,10 +223,15 @@ function Contact() {
                     type="text"
                     name="name"
                     placeholder="Full Name"
-                    value={formData.name}
-                    onChange={handleChange}
                     className="w-full border border-gray-700 bg-gray-900/50 p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 placeholder-gray-500 transition-all duration-300 text-sm sm:text-base"
                     required
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </motion.div>
@@ -225,10 +243,15 @@ function Contact() {
                     type="tel"
                     name="phone"
                     placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
                     className="w-full border border-gray-700 bg-gray-900/50 p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 placeholder-gray-500 transition-all duration-300 text-sm sm:text-base"
                     required
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </motion.div>
@@ -243,10 +266,15 @@ function Contact() {
                     type="email"
                     name="email"
                     placeholder="Email Address"
-                    value={formData.email}
-                    onChange={handleChange}
                     className="w-full border border-gray-700 bg-gray-900/50 p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 placeholder-gray-500 transition-all duration-300 text-sm sm:text-base"
                     required
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </motion.div>
@@ -258,9 +286,14 @@ function Contact() {
                     type="text"
                     name="company"
                     placeholder="Company (Optional)"
-                    value={formData.company}
-                    onChange={handleChange}
                     className="w-full border border-gray-700 bg-gray-900/50 p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 placeholder-gray-500 transition-all duration-300 text-sm sm:text-base"
+                    value={formData.company}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </motion.div>
@@ -272,10 +305,15 @@ function Contact() {
                 rows={4}
                 name="message"
                 placeholder="Tell us about your project..."
-                value={formData.message}
-                onChange={handleChange}
                 className="w-full border border-gray-700 bg-gray-900/50 backdrop-blur-sm p-3 sm:p-4 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 placeholder-gray-500 resize-vertical min-h-[100px] sm:min-h-[120px] lg:min-h-[140px] transition-all duration-300 text-sm sm:text-base"
                 required
+                value={formData.message}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.value,
+                  })
+                }
               />
             </motion.div>
 
