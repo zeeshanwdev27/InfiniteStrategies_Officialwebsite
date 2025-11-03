@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 function About() {
+
   const [textRef, textInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -143,15 +144,15 @@ function About() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              <span
+              <button
                 onClick={() => {
                   const section = document.getElementById("contact");
-                  section?.scrollIntoView({ behavior: "smooth" });
+                  section.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="relative z-10 flex items-center justify-center gap-3 cursor-pointer"
               >
                 Get In Touch
-              </span>
+              </button>
 
               {/* Subtle gradient overlay */}
               <motion.div
