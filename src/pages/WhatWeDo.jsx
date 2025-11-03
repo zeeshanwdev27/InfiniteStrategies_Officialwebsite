@@ -54,24 +54,32 @@ function WhatWeDo() {
   ];
 
   return (
-    <section id="whatwedo" className="min-h-screen bg-linear-to-br from-slate-50 to-slate-200 relative overflow-hidden py-16">
+    <section
+      id="whatwedo"
+      className="h-full bg-linear-to-br from-slate-50 to-slate-200 relative overflow-hidden py-16"
+    >
       {/* Animated Header */}
       <motion.div
         className="flex whitespace-nowrap mb-16"
-        animate={{ x: ["0%", "-50%"] }}
+        animate={{ x: ["0%", "-100%"] }}
         transition={{
-          duration: 20,
+          duration: 10, // slower & smoother scroll
           ease: "linear",
           repeat: Infinity,
         }}
       >
-        {[...Array(8)].map((_, index) => (
-          <h1
-            key={index}
-            className="inline-block text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-orange-500 opacity-80 px-8"
-          >
-            What we do •
-          </h1>
+        {/* Duplicate the same content twice for seamless looping */}
+        {[...Array(2)].map((_, i) => (
+          <div key={i} className="flex">
+            {[...Array(8)].map((_, index) => (
+              <h1
+                key={index}
+                className="inline-block text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-orange-500 opacity-80 px-8"
+              >
+                What we do •
+              </h1>
+            ))}
+          </div>
         ))}
       </motion.div>
 
@@ -83,7 +91,7 @@ function WhatWeDo() {
               delay: 4000,
               stopOnInteraction: false,
               stopOnMouseEnter: true,
-              loop: true
+              loop: true,
             }),
           ]}
           opts={{
@@ -106,13 +114,13 @@ function WhatWeDo() {
                     {/* Content Section */}
                     <div className="content flex flex-col justify-center gap-6 order-2 lg:order-1">
                       <motion.h1
-                        className="text-3xl lg:text-5xl font-bold bg-linear-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent"
+                        className="text-xl md:text-2xl lg:text-5xl font-bold bg-linear-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         {data.title}
                       </motion.h1>
-                      <p className="text-slate-600 leading-relaxed text-lg">
+                      <p className="text-slate-600 leading-relaxed text-md md:text-lg lg:text-lg">
                         {data.description}
                       </p>
                     </div>
@@ -126,7 +134,7 @@ function WhatWeDo() {
                       >
                         <div className="absolute inset-0 bg-linear-to-br from-amber-400/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                         <img
-                          className="relative w-full h-auto max-w-xs lg:max-w-md drop-shadow-2xl z-10"
+                          className="relative w-full h-auto max-w-xs md:max-w-sm lg:max-w-md drop-shadow-2xl z-10"
                           src={data.image}
                           alt={data.title}
                           loading="lazy"

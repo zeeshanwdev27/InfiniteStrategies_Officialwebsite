@@ -122,7 +122,7 @@ function HeroSection() {
           <div className="absolute inset-0 z-10">
             <video
               ref={videoRef}
-              src="/bg-video.mp4"
+              src="./bgvideo/bg-video.mp4"
               muted
               playsInline
               preload="auto"
@@ -143,7 +143,7 @@ function HeroSection() {
             )}
             
             {/* Video overlay gradient */}
-            <div className="absolute inset-0 bg-linear-to-b from-black/40 via-transparent to-black/40 z-15" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/80 via-transparent to-black/90 z-15" />
           </div>
 
           {/* Hero Text */}
@@ -156,7 +156,7 @@ function HeroSection() {
                 Creating brands that captivate and convert
               </p>
               <div className="mt-6 sm:mt-8 animate-bounce">
-                <div className="text-xs sm:text-sm opacity-70 px-4">
+                <div className="text-sm font-bold sm:text-sm opacity-70 px-4">
                   {isVideoReady ? "Scroll fast to see instant video response" : "Loading..."}
                 </div>
               </div>

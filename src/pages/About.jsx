@@ -163,7 +163,7 @@ function About() {
             <div className="absolute inset-0 bg-linear-to-r from-amber-400 to-orange-400 rounded-full blur-3xl opacity-30 -z-10 scale-110"></div>
 
             <motion.img
-              src="/laptop2.png"
+              src="./float_icons/laptop.png"
               alt="Laptop showcasing our work"
               className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl z-20 drop-shadow-2xl"
               whileHover={{ scale: 1.02 }}

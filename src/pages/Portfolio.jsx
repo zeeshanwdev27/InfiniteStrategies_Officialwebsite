@@ -1,402 +1,374 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React from 'react';
 
 function Portfolio() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [containerRef, containerInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
 
-  // Memoized portfolio data
-  const cards = useMemo(() => [
+  const cards = [
     {
-      image: './portfolio/website.png',
-      title: 'Agency Website',
-      category: 'Web Development',
+      image: './portfolio/agendrix.jpg',
+      title: 'Dashboard Application',
+      description: 'A modern, professional plumbing website designed for a seamless user experience.',
+    },
+    {
+      image: './portfolio/calendly_saaswebsite.png',
+      title: 'Saas Application',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'React, Framer Motion, Tailwind CSS',
     },
     {
-      image: './portfolio/website.png',
-      title: 'Agency Website',
-      category: 'UI/UX Design',
+      image: './portfolio/consulting_website.jpg',
+      title: 'Consulting Services',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'Figma, Adobe XD, Prototyping',
     },
     {
-      image: './portfolio/website.png',
+      image: './portfolio/ghost_saaswebsite.jpeg',
       title: 'Agency Website',
-      category: 'Web Development',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'React, Framer Motion, Tailwind CSS',
     },
     {
-      image: './portfolio/website.png',
-      title: 'Agency Website',
-      category: 'Branding',
+      image: './portfolio/ikebanavase_eccomerce.jpg',
+      title: 'Eccomerce Website',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'Logo Design, Brand Identity, Style Guide',
     },
     {
-      image: './portfolio/website.png',
-      title: 'Agency Website',
-      category: 'Branding',
+      image: './portfolio/interio_eccomerce.png',
+      title: 'Eccomerce Website',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'Logo Design, Brand Identity, Style Guide',
     },
-    {
-      image: './portfolio/website.png',
-      title: 'Agency Website',
-      category: 'App Development',
+     {
+      image: './portfolio/pipe_saaswebsite.jpeg',
+      title: 'Saas Application',
       description: 'A modern agency website solution with seamless user experience',
-      tags: 'React Native, Firebase, Mobile App',
     },
-    // Additional cards beyond 6
-    {
-      image: './portfolio/website.png',
-      title: 'E-commerce Platform',
-      category: 'Web Development',
-      description: 'A modern e-commerce solution with seamless user experience',
-      tags: 'React, Node.js, MongoDB',
+      {
+      image: './portfolio/saaso_saaswebsite.jpg',
+      title: 'Saas Application',
+      description: 'A modern agency website solution with seamless user experience',
     },
-    {
-      image: './portfolio/website.png',
-      title: 'Mobile Banking App',
-      category: 'App Development',
-      description: 'A secure mobile banking application',
-      tags: 'React Native, Firebase, Security',
-    },
-    {
-      image: './portfolio/website.png',
-      title: 'Mobile Banking App',
-      category: 'App Development',
-      description: 'A secure mobile banking application',
-      tags: 'React Native, Firebase, Security',
-    },
-    {
-      image: './portfolio/website.png',
-      title: 'Mobile Banking App',
-      category: 'App Development',
-      description: 'A secure mobile banking application',
-      tags: 'React Native, Firebase, Security',
-    },
-  ], []);
-
-  // Memoized categories
-  const categories = useMemo(() => 
-    ["All", "Web Development", "Branding", "App Development", "UI/UX Design"], 
-    []
-  );
-
-  // Custom hook for responsive card limit
-  const useResponsiveLimit = () => {
-    const [cardLimit, setCardLimit] = useState(6);
-
-    React.useEffect(() => {
-      const checkScreenSize = () => {
-        if (window.innerWidth < 640) { // Mobile
-          setCardLimit(3);
-        } else if (window.innerWidth < 1024) { // Tablet
-          setCardLimit(4);
-        } else { // Desktop
-          setCardLimit(6);
-        }
-      };
-
-      // Initial check
-      checkScreenSize();
-
-      // Add event listener
-      window.addEventListener('resize', checkScreenSize);
-
-      // Cleanup
-      return () => window.removeEventListener('resize', checkScreenSize);
-    }, []);
-
-    return cardLimit;
-  };
-
-  const cardLimit = useResponsiveLimit();
-
-  // Optimized filter function with responsive card limit
-  const filteredCards = useMemo(() => {
-    const filtered = activeCategory === 'All' 
-      ? cards 
-      : cards.filter(card => 
-          card.category.toLowerCase() === activeCategory.toLowerCase()
-        );
-    
-    // Apply responsive card limit
-    return filtered.slice(0, cardLimit);
-  }, [activeCategory, cards, cardLimit]);
-
-  // Memoized category handler
-  const handleCategoryChange = useCallback((category) => {
-    setActiveCategory(category);
-  }, []);
-
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        duration: 0.8,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const floatingIcons = [
-    {
-      src: "./float_icons/icon2.png",
-      className: "absolute top-50 right-20 w-100 h-100",
-      delay: 0.5,
+      {
+      image: './portfolio/sales_dashboard.png',
+      title: 'Saas Dashboard',
+      description: 'A modern agency website solution with seamless user experience',
     },
   ];
 
   return (
-    <section id='portfolio' className="min-h-screen bg-linear-to-br from-amber-300 via-orange-200 to-yellow-100 relative overflow-hidden">
+    <section id='portfolio' className="h-full bg-linear-to-br from-amber-300 via-orange-200 to-yellow-100 relative overflow-hidden py-8 sm:py-12 lg:py-20">
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5 sm:opacity-10"></div>
 
-      {/* Floating icons */}
-      {floatingIcons.map((icon, index) => (
-        <motion.img
-          key={index}
-          src={icon.src}
-          alt="Floating icon"
-          className={`${icon.className} z-10 hidden lg:block`}
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 4,
-            delay: icon.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
-      <motion.div
-        ref={containerRef}
-        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 xl:py-24"
-        variants={containerVariants}
-        initial="hidden"
-        animate={containerInView ? "visible" : "hidden"}
-      >
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 relative z-10">
         {/* Header Section */}
-        <motion.div 
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
-          variants={itemVariants}
-        >
-          <motion.h1 
-            className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 sm:mb-6"
-            variants={itemVariants}
-          >
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-24">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
             Our <span className="bg-linear-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">Golden</span> Portfolio
-          </motion.h1>
-          <motion.p 
-            className="text-base sm:text-lg lg:text-xl text-gray-800 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed px-2 sm:px-0"
-            variants={itemVariants}
-          >
-            Showcasing premium projects that shine with excellence and innovation. Each piece 
-            represents our commitment to quality and creative excellence.
-          </motion.p>
-        </motion.div>
+          </h1>
+          <p className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-700 max-w-xs sm:max-w-md lg:max-w-2xl xl:max-w-3xl mx-auto leading-relaxed px-2">
+            Showcasing premium projects that shine with excellence and innovation.
+          </p>
+        </div>
 
-        {/* Category Filter */}
-        <motion.div 
-          className="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20 px-2 sm:px-0"
-          variants={itemVariants}
-        >
-          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                onClick={() => handleCategoryChange(category)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`
-                  px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 rounded-full font-medium transition-all duration-300 
-                  border-2 text-xs sm:text-sm lg:text-base whitespace-nowrap backdrop-blur-sm
-                  ${
-                    activeCategory === category
-                      ? "bg-linear-to-r from-orange-600 to-amber-600 border-transparent text-white shadow-lg shadow-amber-200/50"
-                      : "border-amber-400 text-amber-700 bg-white/80 hover:bg-amber-50 hover:border-amber-500 hover:text-amber-800"
-                  }
-                `}
-              >
-                {category}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Portfolio Grid */}
-        <motion.div 
-          className="max-w-7xl mx-auto"
-          variants={containerVariants}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8">
-            {filteredCards.map((card, index) => (
-              <PortfolioCard 
-                key={`${card.category}-${index}`} 
-                card={card} 
-                index={index}
-              />
-            ))}
-          </div>
+        {/* Infinite Scrolling Cards Container */}
+        <div className="relative overflow-hidden py-4 sm:py-6 lg:py-8">
+          {/* Gradient fade effects on sides - Responsive widths */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 lg:w-20 xl:w-32 bg-linear-to-r from-amber-400/30 to-transparent z-20"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 lg:w-20 xl:w-32 bg-linear-to-l from-amber-400/30 to-transparent z-20"></div>
           
-          {/* Empty State */}
-          {filteredCards.length === 0 && (
-            <motion.div 
-              className="text-center py-12 sm:py-16"
-              variants={itemVariants}
-            >
-              <p className="text-lg sm:text-xl text-amber-700/70">
-                No projects found in this category.
-              </p>
-            </motion.div>
-          )}
+          {/* First scrolling row */}
+          <div className="scrolling-row mb-4 sm:mb-6 lg:mb-8">
+            <div className="scrolling-content h-[40vh] lg:h-[45vh]">
+              {[...cards, ...cards].map((card, index) => (
+                <div
+                  key={index}
+                  className="card-item"
+                >
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-[25vh] lg:h-[30vh] object-cover"
+                      loading="lazy"
+                    />
+                  </div>
 
-          {/* Load More Indicator */}
-          {filteredCards.length > 0 && activeCategory === 'All' && cards.length > cardLimit && (
-            <motion.div 
-              className="text-center mt-8 sm:mt-12"
-              variants={itemVariants}
-            >
-              <p className="text-amber-700/70 text-sm sm:text-base">
-                Showing {cardLimit} of {cards.length} projects
-              </p>
-            </motion.div>
-          )}
-        </motion.div>
-      </motion.div>
+                  {/* Content - Responsive padding */}
+                  <div className="p-3 sm:p-4 lg:p-6 bg-white/90">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-amber-600 mb-2 sm:mb-3">
+                      {card.title}
+                    </h3>
+                    
+                    <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4 leading-relaxed line-clamp-2">
+                      {card.description}
+                    </p>
+
+                    {/* Tags - Responsive sizing */}
+                    {/* <div className="flex flex-wrap gap-1 sm:gap-2">
+                      {card.tags.split(",").map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className="inline-block bg-amber-100 text-amber-800 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium border border-amber-200/50"
+                        >
+                          {tag.trim()}
+                        </span>
+                      ))}
+                    </div> */}
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Second scrolling row */}
+          <div className="scrolling-row-reverse">
+            <div className="scrolling-content h-[40vh] lg:h-[45vh]">
+              {[...cards, ...cards].map((card, index) => (
+                <div
+                  key={index}
+                  className="card-item"
+                >
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-[25vh] lg:h-[30vh] "
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Content - Responsive padding */}
+                  <div className="p-3 sm:p-4 lg:p-6 bg-white/90">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-amber-600 mb-2 sm:mb-3">
+                      {card.title}
+                    </h3>
+                    
+                    <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4 leading-relaxed line-clamp-2">
+                      {card.description}
+                    </p>
+
+                    {/* Tags - Responsive sizing */}
+                    {/* <div className="flex flex-wrap gap-1 sm:gap-2">
+                      {card.tags.split(",").map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className="inline-block bg-amber-100 text-amber-800 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium border border-amber-200/50"
+                        >
+                          {tag.trim()}
+                        </span>
+                      ))}
+                    </div> */}
+                  </div>
+                  
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section - Responsive */}
+        {/* <div className="text-center mt-8 sm:mt-12 lg:mt-16 xl:mt-24">
+          <button className="bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm sm:text-base lg:text-lg px-6 sm:px-8 lg:px-12 py-2 sm:py-3 lg:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-amber-300/50 transition-all duration-300 transform hover:scale-105">
+            View All Projects
+          </button>
+        </div> */}
+
+
+      </div>
+
+      <style jsx>{`
+        .scrolling-row {
+          overflow: hidden;
+          position: relative;
+        }
+
+        .scrolling-row-reverse {
+          overflow: hidden;
+          position: relative;
+        }
+
+        .scrolling-content {
+          display: flex;
+          gap: 0.75rem; /* sm:gap-3 */
+          width: max-content;
+          animation: scroll 60s linear infinite;
+        }
+
+        .scrolling-row-reverse .scrolling-content {
+          animation: scrollReverse 50s linear infinite;
+        }
+
+        .card-item {
+          flex-shrink: 0;
+          width: 16rem; /* Default for mobile */
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 1rem; /* sm:rounded-2xl */
+          overflow: hidden;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(251, 191, 36, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        /* Small screens (sm: 640px+) */
+        @media (min-width: 640px) {
+          .scrolling-content {
+            gap: 1rem;
+          }
+          .card-item {
+            width: 18rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
+          }
+        }
+
+        /* Medium screens (md: 768px+) */
+        @media (min-width: 768px) {
+          .scrolling-content {
+            gap: 1.25rem;
+          }
+          .card-item {
+            width: 20rem;
+          }
+          .scrolling-content {
+            animation-duration: 50s;
+          }
+          .scrolling-row-reverse .scrolling-content {
+            animation-duration: 45s;
+          }
+        }
+
+        /* Large screens (lg: 1024px+) */
+        @media (min-width: 1024px) {
+          .scrolling-content {
+            gap: 1.5rem;
+          }
+          .card-item {
+            width: 22rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          }
+          .scrolling-content {
+            animation-duration: 40s;
+          }
+          .scrolling-row-reverse .scrolling-content {
+            animation-duration: 35s;
+          }
+        }
+
+        /* Extra large screens (xl: 1280px+) */
+        @media (min-width: 1280px) {
+          .card-item {
+            width: 24rem;
+          }
+        }
+
+        /* 2XL screens (2xl: 1536px+) */
+        @media (min-width: 1536px) {
+          .card-item {
+            width: 26rem;
+          }
+        }
+
+        .card-item:hover {
+          transform: translateY(-0.5rem);
+          box-shadow: 0 35px 60px -12px rgba(251, 191, 36, 0.3);
+          border-color: rgba(251, 191, 36, 0.5);
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-16rem * ${cards.length} - 0.75rem * ${cards.length}));
+          }
+        }
+
+        @keyframes scrollReverse {
+          0% {
+            transform: translateX(calc(-16rem * ${cards.length} - 0.75rem * ${cards.length}));
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        /* Responsive animation distances */
+        @media (min-width: 640px) {
+          @keyframes scroll {
+            100% {
+              transform: translateX(calc(-18rem * ${cards.length} - 1rem * ${cards.length}));
+            }
+          }
+          @keyframes scrollReverse {
+            0% {
+              transform: translateX(calc(-18rem * ${cards.length} - 1rem * ${cards.length}));
+            }
+          }
+        }
+
+        @media (min-width: 768px) {
+          @keyframes scroll {
+            100% {
+              transform: translateX(calc(-20rem * ${cards.length} - 1.25rem * ${cards.length}));
+            }
+          }
+          @keyframes scrollReverse {
+            0% {
+              transform: translateX(calc(-20rem * ${cards.length} - 1.25rem * ${cards.length}));
+            }
+          }
+        }
+
+        @media (min-width: 1024px) {
+          @keyframes scroll {
+            100% {
+              transform: translateX(calc(-22rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+          @keyframes scrollReverse {
+            0% {
+              transform: translateX(calc(-22rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+        }
+
+        @media (min-width: 1280px) {
+          @keyframes scroll {
+            100% {
+              transform: translateX(calc(-24rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+          @keyframes scrollReverse {
+            0% {
+              transform: translateX(calc(-24rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+        }
+
+        @media (min-width: 1536px) {
+          @keyframes scroll {
+            100% {
+              transform: translateX(calc(-26rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+          @keyframes scrollReverse {
+            0% {
+              transform: translateX(calc(-26rem * ${cards.length} - 1.5rem * ${cards.length}));
+            }
+          }
+        }
+
+        /* Pause animation on hover */
+        .scrolling-row:hover .scrolling-content {
+          animation-play-state: paused;
+        }
+
+        .scrolling-row-reverse:hover .scrolling-content {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }
-
-// Separate component for individual portfolio cards
-const PortfolioCard = React.memo(({ card, index }) => {
-  const [cardRef, cardInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-        delay: index * 0.1,
-      },
-    },
-  };
-
-  return (
-    <motion.article 
-      ref={cardRef}
-      variants={cardVariants}
-      initial="hidden"
-      animate={cardInView ? "visible" : "hidden"}
-      whileHover={{ 
-        y: -6,
-        transition: { type: "spring", stiffness: 300 }
-      }}
-      className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-xl sm:hover:shadow-2xl transition-all duration-300 group cursor-pointer border border-amber-200/50"
-    >
-      {/* Image Container with Zoom Effect */}
-      <div className="relative overflow-hidden">
-        <motion.div
-          className="overflow-hidden"
-          whileHover={{ 
-            scale: 1.02,
-            transition: { duration: 0.4 }
-          }}
-        >
-          <motion.img
-            src={card.image}
-            alt={card.title}
-            loading="lazy"
-            className="w-full h-40 sm:h-48 md:h-56 object-cover transform transition-transform duration-500 group-hover:scale-110"
-          />
-        </motion.div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-amber-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* Category Badge */}
-        <motion.div 
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10"
-          whileHover={{ scale: 1.05 }}
-        >
-          <span className="inline-block py-1.5 px-3 sm:py-2 sm:px-4 bg-linear-to-r from-amber-600 to-orange-600 text-white text-xs font-semibold rounded-full shadow-lg">
-            {card.category}
-          </span>
-        </motion.div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4 sm:p-6 lg:p-8 bg-white/80">
-        <motion.h3 
-          className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors duration-300 line-clamp-1"
-          whileHover={{ x: 3 }}
-        >
-          {card.title}
-        </motion.h3>
-        
-        <p className="text-gray-700 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2">
-          {card.description}
-        </p>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-          {card.tags.split(",").map((tag, tagIndex) => (
-            <motion.span
-              key={tagIndex}
-              className="inline-block bg-amber-100 text-amber-700 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium border border-amber-200/50 line-clamp-1"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400 }}
-            >
-              {tag.trim()}
-            </motion.span>
-          ))}
-        </div>
-
-        {/* Action Button */}
-        <motion.button 
-          className="w-full bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all duration-300 shadow-lg hover:shadow-amber-200/50 text-sm sm:text-base"
-          whileHover={{ 
-            scale: 1.02,
-          }}
-          whileTap={{ scale: 0.98 }}
-        >
-          View Project
-        </motion.button>
-      </div>
-    </motion.article>
-  );
-});
 
 export default Portfolio;

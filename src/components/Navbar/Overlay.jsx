@@ -79,7 +79,7 @@ function Overlay({ isOpen, setIsOpen }) {
               {/* Navigation Section - Improved spacing for mobile */}
               <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-amber-500/20">
                 <nav className="w-full max-w-2xl">
-                  <ul className="flex flex-col items-center lg:items-start gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+                  <ul className="flex flex-col items-center lg:items-start gap-3 sm:gap-4 md:gap-6 lg:gap-6">
                     {[
                       "Home",
                       "About",
@@ -99,7 +99,7 @@ function Overlay({ isOpen, setIsOpen }) {
                             }
                             setIsOpen(false); // close overlay after click
                           }}
-                          className="cursor-pointer hover:opacity-80 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white hover:text-amber-300 transition-colors duration-300 text-left w-full py-3 sm:py-4 md:py-6"
+                          className="cursor-pointer hover:opacity-80 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white hover:text-amber-300 transition-colors duration-300 text-left w-full py-3 sm:py-4 md:py-6"
                         >
                           <span className="bg-linear-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">
                             {item}
