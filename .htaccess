@@ -1,0 +1,68 @@
+# -------------------------------------------------------
+# 🔒 SECURITY & REDIRECTION
+# -------------------------------------------------------
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Force WWW (optional)
+# Uncomment these 3 lines if you want https://www.example.com instead of https://example.com
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# -------------------------------------------------------
+# ⚛️ REACT SPA SUPPORT
+# -------------------------------------------------------
+
+# Handle React routes (avoid 404 when refreshing)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# -------------------------------------------------------
+# 🧠 MIME TYPES (ensure correct file loading)
+# -------------------------------------------------------
+AddType application/javascript .js
+AddType text/css .css
+AddType video/mp4 .mp4
+AddType image/png .png
+AddType image/jpeg .jpg .jpeg
+AddType image/webp .webp
+AddType font/woff2 .woff2
+AddType font/woff .woff
+
+# -------------------------------------------------------
+# ⚡ PERFORMANCE (browser caching)
+# -------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresDefault "access plus 7 days"
+</IfModule>
+
+# -------------------------------------------------------
+# 🧱 SECURITY HEADERS
+# -------------------------------------------------------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "no-referrer-when-downgrade"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# -------------------------------------------------------
+# 🚫 BLOCK ACCESS TO SENSITIVE FILES
+# -------------------------------------------------------
+<FilesMatch "\.(env|htaccess|git|json|md|lock|log)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

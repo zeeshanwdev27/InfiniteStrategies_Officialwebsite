@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Phone, Mail, Building, Send } from 'lucide-react';
+import { User, Phone, Mail, Building, Send } from "lucide-react";
+import Swal from "sweetalert2";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -8,52 +9,40 @@ function Contact() {
     phone: "",
     email: "",
     company: "",
-    message: ""
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log("Form submitted:", formData);
-    setIsSubmitting(false);
-    setFormData({ name: "", phone: "", email: "", company: "", message: "" });
   };
 
   const inputVariants = {
     focus: {
       scale: 1.02,
       borderColor: "#f59e0b",
-      transition: { duration: 0.2 }
-    }
+      transition: { duration: 0.2 },
+    },
   };
 
   const buttonVariants = {
     initial: { scale: 1 },
-    hover: { 
+    hover: {
       scale: 1.05,
       backgroundColor: "#ffffff",
       color: "#000000",
-      transition: { duration: 0.3 }
+      transition: { duration: 0.3 },
     },
-    tap: { scale: 0.98 }
+    tap: { scale: 0.98 },
   };
 
   return (
     <>
       <section
-      id="contact"
+        id="contact"
         className=" bg-linear-to-br from-gray-900 to-black text-white pt-8 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden relative"
         aria-labelledby="contact-heading"
       >
@@ -74,14 +63,14 @@ function Contact() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               />
-              
+
               {/* Middle Ring */}
               <motion.div
                 className="absolute inset-4 sm:inset-6 lg:inset-8 rounded-full border border-amber-400/30"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               />
-              
+
               {/* Inner Ring with Floating Elements */}
               <motion.div
                 className="absolute inset-8 sm:inset-12 lg:inset-16 rounded-full border border-white/10"
@@ -92,12 +81,12 @@ function Contact() {
                   className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2"
                   animate={{
                     rotate: -360,
-                    scale: [1, 1.2, 1]
+                    scale: [1, 1.2, 1],
                   }}
                   transition={{
                     duration: 10,
                     repeat: Infinity,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
                   }}
                 >
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-amber-400" />
@@ -117,7 +106,7 @@ function Contact() {
                       <Send className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" />
                     </div>
                   </motion.div>
-                  
+
                   <h1
                     id="contact-heading"
                     className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-2 sm:mb-4"
@@ -139,14 +128,15 @@ function Contact() {
                       Together
                     </motion.span>
                   </h1>
-                  
+
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
                     className="text-gray-300 text-sm sm:text-base lg:text-lg mt-4 sm:mt-6 max-w-xs sm:max-w-sm lg:max-w-md px-2 sm:px-0"
                   >
-                    Ready to bring your vision to life? Let's start the conversation and build something amazing.
+                    Ready to bring your vision to life? Let's start the
+                    conversation and build something amazing.
                   </motion.p>
                 </div>
               </div>
@@ -155,7 +145,56 @@ function Contact() {
 
           {/* Form Section - Modernized */}
           <motion.form
-            onSubmit={handleSubmit}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setIsSubmitting(true); 
+              const formData = new FormData(e.target);
+
+              try {
+                const response = await fetch(
+                  "https://infinitestrategies.org/sendmail.php",
+                  {
+                    method: "POST",
+                    body: formData,
+                  }
+                );
+                const result = await response.text();
+
+                if (result.includes("success")) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Subscribed!",
+                    text: "🎉 Thank you! Your message has been recorded. We'll get back to you soon.",
+                    confirmButtonColor: "#FBBF24",
+                  });
+                  e.target.reset();
+                } else if (result.includes("invalid_email")) {
+                  Swal.fire({
+                    icon: "warning",
+                    title: "Invalid Email",
+                    text: "⚠️ Please enter a valid email address.",
+                    confirmButtonColor: "#FBBF24",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "❌ Something went wrong. Please try again later.",
+                    confirmButtonColor: "#FBBF24",
+                  });
+                }
+              } catch (error) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Network Error",
+                  text: "🚨 Please check your connection and try again.",
+                  confirmButtonColor: "#FBBF24",
+                });
+                console.error(error);
+              } finally {
+                setIsSubmitting(false); 
+              }
+            }}
             className="flex flex-col gap-4 sm:gap-6 w-full max-w-lg mx-auto lg:mx-0 px-2 sm:px-0"
             noValidate
             initial={{ opacity: 0, x: 20 }}
@@ -254,7 +293,11 @@ function Contact() {
                 <>
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full"
                   />
                   <span className="text-sm sm:text-base">Sending...</span>
@@ -271,9 +314,10 @@ function Contact() {
 
         {/* Footer */}
         <div className="py-5 text-white text-center w-full bg-gray-900/50 backdrop-blur-sm mt-8 sm:mt-12 mb-0">
-          <p className="text-sm sm:text-base">Infinite Strategies - All Rights Reserved</p>
+          <p className="text-sm sm:text-base">
+            Infinite Strategies - All Rights Reserved
+          </p>
         </div>
-
       </section>
     </>
   );
