@@ -51,18 +51,23 @@ function About() {
   const floatingIcons = [
     {
       src: "./float_icons/icon1.png",
-      className: "absolute top-4 left-4 w-16 h-16 md:top-8 md:left-8 md:w-24 md:h-24 lg:top-10 lg:left-10 lg:w-40 lg:h-40",
+      className:
+        "absolute top-4 left-4 w-16 h-16 md:top-8 md:left-8 md:w-24 md:h-24 lg:top-10 lg:left-10 lg:w-40 lg:h-40",
       delay: 0,
     },
     {
       src: "./float_icons/icon2.png",
-      className: "absolute top-32 right-4 w-16 h-16 md:top-48 md:right-8 md:w-20 md:h-20 lg:top-40 lg:right-20 lg:w-100 lg:h-100",
+      className:
+        "absolute top-32 right-4 w-16 h-16 md:top-48 md:right-8 md:w-20 md:h-20 lg:top-40 lg:right-20 lg:w-100 lg:h-100",
       delay: 0.5,
     },
   ];
 
   return (
-    <section id="about" className="min-h-[80vh] lg:h-[80vh] bg-linear-to-br from-amber-300 via-orange-200 to-yellow-100 relative overflow-hidden">
+    <section
+      id="about"
+      className="min-h-[80vh] lg:h-[80vh] bg-linear-to-br from-amber-300 via-orange-200 to-yellow-100 relative overflow-hidden"
+    >
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
 
@@ -103,9 +108,9 @@ function About() {
             className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold font-poppins mb-4 sm:mb-6 lg:mb-8 leading-tight"
             variants={textVariants}
           >
-            Creating a brand identity that{" "}
+            Creating a brand that{" "}
             <span className="bg-linear-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-              sells your business
+              sells for you.
             </span>
           </motion.h2>
 
@@ -113,17 +118,18 @@ function About() {
             className="text-base sm:text-lg lg:text-xl text-gray-800 leading-relaxed mb-4 sm:mb-6"
             variants={textVariants}
           >
-            Canvas Digital is a proud business unit of Sybrid Pvt. Limited (A
-            Lakson Group Company). The company is a one-stop solution comprising
-            the foremost digital marketing and branding experts that help
-            business growth, increase brand reach and drive sales.
+            Infinite Strategies is a dedicated business division offering
+            comprehensive business solutions. With a team of industry-leading
+            experts, we empower companies to achieve growth, expand their reach,
+            and drive success across multiple domains.
           </motion.p>
 
           <motion.p
             className="text-base sm:text-lg lg:text-xl text-gray-800 leading-relaxed font-semibold mb-6 sm:mb-8"
             variants={textVariants}
           >
-            We assure quality and ensure there are zero compromises.
+            We guarantee top-notch quality and uphold a zero-compromise standard
+            in everything we do.
           </motion.p>
 
           {/* CTA Button */}
@@ -137,8 +143,14 @@ function About() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10 flex items-center justify-center gap-3">
-                Discover Our Process
+              <span
+                onClick={() => {
+                  const section = document.getElementById("contact");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="relative z-10 flex items-center justify-center gap-3 cursor-pointer"
+              >
+                Get In Touch
               </span>
 
               {/* Subtle gradient overlay */}
@@ -165,7 +177,7 @@ function About() {
             <motion.img
               src="./float_icons/laptop.png"
               alt="Laptop showcasing our work"
-              className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl z-20 drop-shadow-2xl"
+              className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl z-1000 drop-shadow-2xl"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             />
